@@ -17,6 +17,14 @@
 (pin passive line (at -5.08 -0.00 0) (length 5.08) (name "1" (effects (font (size 1 1)))) (number "1" (effects (font (size 1 1)))))
 (pin passive line (at -5.08 -2.54 0) (length 5.08) (name "2" (effects (font (size 1 1)))) (number "2" (effects (font (size 1 1)))))
 ))
+(symbol "C" (pin_names (offset 0.5)) (exclude_from_sim no) (in_bom yes) (on_board yes)
+(property "Reference" "C" (at 0 -7.08 0) (effects (font (size 1.27 1.27))))
+(property "Value" "C" (at 0 2.54 0) (effects (font (size 1.27 1.27))))
+(symbol "C_0_1" (rectangle (start 0 2.54) (end 15.24 -5.08) (stroke (width 0.254) (type default)) (fill (type background))))
+(symbol "C_1_1"
+(pin passive line (at -5.08 -0.00 0) (length 5.08) (name "1" (effects (font (size 1 1)))) (number "1" (effects (font (size 1 1)))))
+(pin passive line (at -5.08 -2.54 0) (length 5.08) (name "2" (effects (font (size 1 1)))) (number "2" (effects (font (size 1 1)))))
+))
 (symbol "Conn_02" (pin_names (offset 0.5)) (exclude_from_sim no) (in_bom yes) (on_board yes)
 (property "Reference" "J" (at 0 -7.08 0) (effects (font (size 1.27 1.27))))
 (property "Value" "Conn_02" (at 0 2.54 0) (effects (font (size 1.27 1.27))))
@@ -51,7 +59,7 @@
 ))
 (symbol "BluePill" (pin_names (offset 0.5)) (exclude_from_sim no) (in_bom yes) (on_board yes)
 (property "Reference" "J" (at 0 5.08 0) (effects (font (size 1.27 1.27))))
-(property "Value" "Blue_Pill_F103C8" (at 0 2.54 0) (effects (font (size 1.27 1.27))))
+(property "Value" "GD32F103C8T6_Core_TypeC" (at 0 2.54 0) (effects (font (size 1.27 1.27))))
 (symbol "BluePill_0_1" (rectangle (start -7.62 1.27) (end 7.62 -49.53) (stroke (width 0.254) (type default)) (fill (type background))))
 (symbol "BluePill_1_1"
 (pin passive line (at -12.7 0.00 0) (length 5.08) (name "GND" (effects (font (size 0.9 0.9)))) (number "1" (effects (font (size 0.85 0.85)))))
