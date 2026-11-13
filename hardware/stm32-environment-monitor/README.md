@@ -1,40 +1,57 @@
-# STM32 环境监控系统硬件 V1.0（模块版）
+# STM32 环境监控系统硬件 V1.1（国产贴片版）
 
-基于 STM32F103C8T6 Blue Pill 核心板。传感器、显示屏和 RTC 都用 4P 排针外接模块。
+主控是**立创·地阔星 STM32F103C8T6 开发板**（LCKFB-DKX-STM32F103C8T6，立创编号 C22396880），插在板上的两排 1×20P 排母（J1/J2）里。这块开发板的 40 个引脚顺序和 Blue Pill 完全相同。
+
+温湿度、时钟、光照改成板载的国产器件。OLED 用 4P 排母插模块。
 
 ## 文件
 
 | 文件 | 说明 |
 | --- | --- |
-| `STM32-Environment-Monitor-V1.0.epro` | 嘉立创 EDA 专业版工程（原理图 + PCB1），可直接导入编辑 |
-| `fabrication/Gerber_STM32_Env_Monitor_V1.0.zip` | 打板用 Gerber + 钻孔文件，可直接上传嘉立创下单 |
-| `fabrication/BOM_STM32_Env_Monitor_V1.0.csv` | 物料清单 |
-| `fabrication/PickAndPlace_STM32_Env_Monitor_V1.0.csv` | 贴片坐标文件 |
-| `archive/STM32-Environment-Monitor-SMD-DRAFT.epro` | 未完成的贴片传感器 / OLED 裸屏方案草稿，**不要用于打板** |
+| `STM32-Environment-Monitor-V1.1.epro` | 嘉立创 EDA 专业版工程（原理图 + PCB1），可直接导入编辑 |
+| `fabrication/Gerber_STM32_Env_Monitor_V1.1.zip` | 打板用的 Gerber 和钻孔文件 |
+| `fabrication/BOM_STM32_Env_Monitor_V1.1.csv` | 物料清单 |
+| `fabrication/PickAndPlace_STM32_Env_Monitor_V1.1.csv` | 贴片坐标文件 |
+| `archive/V1.0-module/` | 上一版：传感器全部用 4P 排针外接模块、主控为 Blue Pill |
+| `archive/STM32-Environment-Monitor-SMD-DRAFT.epro` | 更早的贴片草稿，**不要用于打板** |
+
+## 相对 V1.0 的改动
+
+| 功能 | V1.0 | V1.1 |
+| --- | --- | --- |
+| 主控板 | Blue Pill | 立创·地阔星 STM32F103C8T6（引脚兼容，插同一组排母） |
+| 温湿度 | SHT30 模块（J3） | **U1 GXHT30**（中科银河芯，贴片 DFN-8），I²C 地址 0x44 |
+| 时钟 | DS3231 模块（J6） | **U2 SD3077**（兴威帆，贴片 SOIC-8，内置晶振），备用电池 **BT1 CR1220**（金航标贴片电池座） |
+| 光照 | BH1750 模块（J4），I²C | **RL1 GL4539 光敏电阻**（晶创和立，直插），和 R10 10k 分压后接 **PA4（ADC）** |
+| OLED | J5 4P 公排针 | J5 4P **排母**，引脚顺序改为 `GND 3V3 SCL SDA` |
+| 下载口 | J11/J12 SWD 排针 | 已去掉，改用开发板自带的 Type-C 下载 |
+| 去耦电容 | — | C2、C3、C4 用风华 0603 100nF |
+
+国产数字 I²C 光照芯片在立创库里没有找到，所以光照改成了光敏电阻加 ADC。读到的是相对亮度，不是标定好的 lux 值；需要 lux 值的话，要在固件里用照度计做一次标定。
 
 ## 板子参数
 
 - 双层板，157.99 × 105.54 mm，顶层和底层都铺了 GND 铜
-- 12V 输入、灯带回路走线 40 mil，信号线 10 mil
-- 嘉立创 EDA 设计规则检查：原理图 0 错误；PCB 141 项检查 0 问题，没有未布线的网络
+- 12V 输入和灯带回路走线 40 mil，其余信号线 8.8–10 mil
+- 嘉立创 EDA 设计规则检查：原理图 0 个错误；PCB 0 个错误，没有未布线的网络
 
-## 接口与引脚
+## 引脚分配
 
-| 功能 | Blue Pill 引脚 | 说明 |
+| 功能 | STM32 引脚 | 说明 |
 | --- | --- | --- |
 | KEY1–KEY4 | PA0–PA3 | 按下接 GND，固件里开内部上拉 |
 | LED 红 / 绿 / 黄 | PB0 / PB1 / PB10 | 红、黄低电平亮，绿高电平亮 |
-| I2C1 SCL / SDA | PB6 / PB7 | 板上 4.7k 上拉到 3V3 |
-| 灯带 MOS 管 (AO3400) | PA11 | 高电平点亮；PA11 同时是 USB D-，调试用 SWD |
-| 有源蜂鸣器 (S8050) | PA8 | 高电平响 |
-| SWD | PA13 / PA14 | J11 接 ST-LINK，J12 接 Blue Pill 的 SWD 排针 |
+| I2C1 SCL / SDA | PB6 / PB7 | 板上 4.7k 上拉到 3V3；接 U1、U2、J5 |
+| 光照 ADC | PA4 | 越亮电压越高 |
+| 灯带 MOS 管（AO3400A） | PA11 | 高电平点亮 |
+| 有源蜂鸣器（S8050） | PA8 | 高电平响 |
 
-模块接口 J3–J6 的引脚顺序是 `1:3V3 2:GND 3:SCL 4:SDA`，I2C 地址：SHT30 0x44、BH1750 0x23、SSD1306 0x3C、DS3231 0x68。
+## 装配和固件注意事项
 
-## 装配前请核对
-
-1. **模块引脚顺序。** 很多 0.96 寸 OLED 模块是 `GND VCC SCL SDA`，和本板的 J5（`3V3 GND …`）前两脚是反的；DS3231 模块（如 ZS-042）引脚也不是这个 4P 顺序。插模块前先对照丝印，不一致就用杜邦线交叉接。
-2. **模块自带上拉。** 板上已经有 4.7k 上拉；模块自带的上拉过多时，可以拆掉部分。
-3. **LM2596 输出。** 先把 LM2596 模块调到 5.0V，再接 J10 和 Blue Pill。
-4. **USB 和外部 5V 不能同时供电。**
-5. **保险丝。** FH1 装 T2A 5×20 保险丝。
+1. **核对 SD3077 的引脚和 I²C 地址。** 引脚按立创库的符号画（1、2 NC，3 VBAT，4 GND，5 SDA，6 SCL，7 INT，8 VDD）。我没能下载到它的数据手册逐脚核对，0x32 这个地址也凭的是经验。下单前请对照数据手册确认，固件也要按数据手册里的寄存器来写。
+2. **GXHT30 和 SHT30 引脚、协议兼容**，可以直接用 SHT30 的驱动。
+3. **PA11 也是 USB D-。** 用 Type-C 下载或调试时，灯带控制会受影响；控制灯带时请拔掉 USB 线。
+4. **Type-C 和外部 5V 不能同时供电。** 先把 LM2596 调到 5.0V，再接 J10。
+5. **OLED 模块的引脚顺序**要和 J5 丝印（GND 3V3 SCL SDA）一致，不一致就用杜邦线交叉接。
+6. **保险丝**：FH1 装 T2A 5×20 保险丝。
+7. **光敏电阻的封装**借用的是脚距 2.5 mm 的直插电容封装，丝印是一个圆圈；GL4539 的脚距也是 2.5 mm，可以直接插。
