@@ -4,10 +4,10 @@
 (property "Value" "Sensor" (at 0 2.54 0) (effects (font (size 1.27 1.27))))
 (symbol "Sensor_0_1" (rectangle (start 0 2.54) (end 15.24 -10.16) (stroke (width 0.254) (type default)) (fill (type background))))
 (symbol "Sensor_1_1"
-(pin passive line (at -5.08 -0.00 0) (length 5.08) (name "E" (effects (font (size 1 1)))) (number "1" (effects (font (size 1 1)))))
+(pin passive line (at -5.08 -0.00 0) (length 5.08) (name "E" (effects (font (size 1 1)))) (number "4" (effects (font (size 1 1)))))
 (pin passive line (at -5.08 -2.54 0) (length 5.08) (name "A" (effects (font (size 1 1)))) (number "2" (effects (font (size 1 1)))))
-(pin passive line (at -5.08 -5.08 0) (length 5.08) (name "K" (effects (font (size 1 1)))) (number "3" (effects (font (size 1 1)))))
-(pin passive line (at -5.08 -7.62 0) (length 5.08) (name "C" (effects (font (size 1 1)))) (number "4" (effects (font (size 1 1)))))
+(pin passive line (at -5.08 -5.08 0) (length 5.08) (name "K" (effects (font (size 1 1)))) (number "1" (effects (font (size 1 1)))))
+(pin passive line (at -5.08 -7.62 0) (length 5.08) (name "C" (effects (font (size 1 1)))) (number "3" (effects (font (size 1 1)))))
 ))
 (symbol "R" (pin_names (offset 0.5)) (exclude_from_sim no) (in_bom yes) (on_board yes)
 (property "Reference" "R" (at 0 -7.08 0) (effects (font (size 1.27 1.27))))
