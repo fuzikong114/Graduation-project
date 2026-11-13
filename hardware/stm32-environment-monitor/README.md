@@ -12,8 +12,25 @@
 | `fabrication/Gerber_STM32_Env_Monitor_V1.2.zip` | 打板用的 Gerber 和钻孔文件 |
 | `fabrication/BOM_STM32_Env_Monitor_V1.2.csv` | 物料清单 |
 | `fabrication/PickAndPlace_STM32_Env_Monitor_V1.2.csv` | 贴片坐标文件 |
-| `archive/V1.1-domestic/` | 上一版：用 LM2596 模块和接线端子供电 |
-| `archive/V1.0-module/` | 更早一版：传感器全部用外接模块，主控为 Blue Pill |
+| `archive/V1.1-domestic/` | 上一版：用 LM2596 模块和接线端子供电。**有 J2 反向错误（见下文），不要用于打板** |
+| `archive/V1.0-module/` | 更早一版：传感器全部用外接模块，主控为 Blue Pill。**同样有 J2 反向错误，不要用于打板** |
+
+## 已修正的严重错误：J2 排母方向
+
+V1.0 和 V1.1 的 J2 排母封装转了 180°，它的 1 号脚（3V3）和 J1 的 1 号脚（BAT）不在同一端。但开发板实物上，BAT 和 3V3 在同一端。按旧版打板，开发板插上后 J2 这一排会全部错位：
+- 板上的 3V3、GND、5V 会接到 PB12、PB13、PB14
+- 真正的电源脚悬空
+- I²C、PA8、PA11 也会接错
+
+V1.2 已把 J2 转回和 J1 同向，两排焊盘已逐个对照立创·地阔星的官方引脚图核对过。
+
+## 其他布局检查（V1.2）
+
+- 降压区元件拉开间距：C6 不再压在 C7 的丝印框里；C5、C6、C7 的位号文字已摆正
+- J13 测试排针挪出开发板下方（原来紧贴开发板板边，插拔开发板和接杜邦线都会碰到）
+- 板上说明文字挪到右下角空白处，原来压在 U2 和电池座上
+- 不同元件的焊盘之间最小间距约 1.1 mm 以上；开发板投影范围内没有其他元件
+- 按键 SW1–SW4：信号和 GND 分别接在开关的两组触点上，没有接到常通的同一组
 | `archive/STM32-Environment-Monitor-SMD-DRAFT.epro` | 最早的贴片草稿，**不要用于打板** |
 
 ## 各版本改动
